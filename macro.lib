@@ -1,0 +1,58 @@
+print_str macro A
+
+	          push ax
+	          push dx
+
+	          mov  ah, 9
+	          mov  dx, offset A
+	          int  21h
+
+	          pop  dx
+	          pop  ax
+endm
+
+input_str macro A
+
+	          push ax
+	          push dx
+
+	          mov  ah, 10
+	          mov  dx, offset A
+	          int  21h
+
+	          pop  dx
+	          pop  ax
+
+endm
+
+print_ascii macro index
+	            mov ah, 2
+	            mov dl, index
+	            int 21h
+endm
+
+print_line macro
+	           print_ascii 0dh
+	           print_ascii 0dh
+endm
+
+input_ascii macro
+	mov ah, 1
+	int 21h
+endm
+
+
+protect_register macro
+	push ax
+	push bx
+	push cx
+	push dx
+endm
+
+recover_register macro
+	pop dx
+	pop cx
+	pop bx
+	pop ax
+endm
+
