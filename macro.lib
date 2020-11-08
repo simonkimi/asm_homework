@@ -31,14 +31,14 @@ print_ascii macro index
 	            int 21h
 endm
 
-print_line macro
-	           print_ascii 0dh
-	           print_ascii 0dh
-endm
-
 input_ascii macro
 	mov ah, 1
 	int 21h
+endm
+
+print_line macro
+	           print_ascii 0dh
+	           print_ascii 0ah
 endm
 
 
@@ -55,4 +55,3 @@ recover_register macro
 	pop bx
 	pop ax
 endm
-
