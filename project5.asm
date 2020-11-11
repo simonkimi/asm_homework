@@ -1,19 +1,19 @@
 include macro.lib
 	               assume cs: code, ss: stack, ds: data
 
-add_num_to_NUM macro                               		; 将数字存到NUM中, 同时NUM数字自增1
-	               push   bx
-	               push   dx
-	               mov    ax, NUM[0]
-	               mov    bx, 2
-	               mul    bx
-	               mov    bx, ax
-	               pop    dx
-	               mov    NUM[bx + 2], dx
-	               dec    cx
-	               inc    NUM[0]
-	               pop    bx
-	               inc    bx
+add_num_to_NUM macro               		; 将数字存到NUM中, 同时NUM数字自增1
+	               push bx
+	               push dx
+	               mov  ax, NUM[0]
+	               mov  bx, 2
+	               mul  bx
+	               mov  bx, ax
+	               pop  dx
+	               mov  NUM[bx + 2], dx
+	               dec  cx
+	               inc  NUM[0]
+	               pop  bx
+	               inc  bx
 endm
 
 print_sigle_num macro A
