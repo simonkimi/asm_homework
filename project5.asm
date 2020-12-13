@@ -46,7 +46,7 @@ stack ends
 code segment
 
 input_num proc near                               		; 解析输入的数字, 将数据保存到NUM
-	                 protect_register
+	                 register_protect
 	                 input_str        IBUF
 	                 mov              ax, 0
 	                 mov              NUM[0], ax      	; 现在有0个数字
@@ -76,7 +76,7 @@ input_num proc near                               		; 解析输入的数字, 将
 	                 loop             parse_chr
 	input_num_end:                                    	; 输入结束, 储存数字并结束运行
 	                 add_num_to_NUM
-	                 recover_register
+	                 register_recover
 	                 ret
 	is_space:        
 	                 add_num_to_NUM
@@ -87,7 +87,7 @@ input_num endp
 
 
 print_num proc near                               		; 打印一个数字, 数据存在ax中
-	                 protect_register
+	                 register_protect
 	                 mov              cx, 1
 	                 jmp              first_num
 	next_num:        
@@ -108,7 +108,7 @@ print_num proc near                               		; 打印一个数字, 数据
 	                 inc              bx
 	                 loop             reverse
 	                 print_ascii      32
-	                 recover_register
+	                 register_recover
 	                 ret
 
 
@@ -116,7 +116,7 @@ print_num endp
 
 
 auth proc near                                    		; 认证系统, 认证3次不成功直接退出
-	                 protect_register
+	                 register_protect
 	                 mov              cx, 3
 	auth_start:      
 	                 call             input_num
@@ -128,13 +128,13 @@ auth proc near                                    		; 认证系统, 认证3次�
 	                 int              21h
 	auth_success:    
 	                 print_str        STR_AUTH_SUCCESS
-	                 recover_register
+	                 register_recover
 	                 ret
 auth endp
 
 
 menu proc near                                    		; 主菜单
-	                 protect_register
+	                 register_protect
 	menu_start:      
 	                 print_str        STR_MENU
 	                 input_ascii
@@ -152,13 +152,13 @@ menu proc near                                    		; 主菜单
 	                 jmp              menu_start
 	
 	menu_exit:       
-	                 recover_register
+	                 register_recover
 	                 ret
 menu endp
 
 
 sort_num proc near                                		; 对数字进行排序, 约定数字放在NUM里, NUM[0]为个数, 后面的为数字
-	                 protect_register
+	                 register_protect
 	                 mov              cx, NUM[0]
 	                 dec              cx
 	sort_outer:      
@@ -176,13 +176,13 @@ sort_num proc near                                		; 对数字进行排序, 约
 	                 cmp              dx, 0
 	                 jne              sort_inner
 	                 loop             sort_outer
-	                 recover_register
+	                 register_recover
 	                 ret
 sort_num endp
 
 
 print_num_list proc near                          		; 把NUM里的数字全部输出出来
-	                 protect_register
+	                 register_protect
 	                 mov              cx, NUM[0]
 	                 mov              bx, 0
 	num_start:       
@@ -190,26 +190,26 @@ print_num_list proc near                          		; 把NUM里的数字全部�
 	                 call             print_num
 	                 add              bx, 2
 	                 loop             num_start
-	                 recover_register
+	                 register_recover
 	                 ret
 print_num_list endp
 
 
 sort proc near                                    		; 排序功能
-	                 protect_register
+	                 register_protect
 	                 print_str        STR_SORT
 	                 call             input_num
 	                 call             sort_num
 	                 print_str        STR_EMPTY
 	                 call             print_num_list
-	                 recover_register
+	                 register_recover
 	                 ret
 sort endp
 
 
 
 performance proc near                             		; 成绩功能
-	                 protect_register
+	                 register_protect
 	                 print_str        STR_PER
 	                 call             input_num
 	                 mov              cx, NUM[0]
@@ -280,7 +280,7 @@ performance proc near                             		; 成绩功能
 	                 print_ascii      ':'
 	                 print_sigle_num  TMP_DW[8]
 	                 print_line
-	                 recover_register
+	                 register_recover
 	                 ret
 performance endp
 
