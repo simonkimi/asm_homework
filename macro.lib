@@ -42,16 +42,41 @@ print_line macro
 endm
 
 
-protect_register macro
+register_protect macro
 	push ax
 	push bx
 	push cx
 	push dx
 endm
 
-recover_register macro
+register_recover macro
 	pop dx
 	pop cx
 	pop bx
 	pop ax
+endm
+
+sleep macro t
+	      push cx
+	      mov  cx, t
+	      loop $
+	      pop  cx
+endm
+
+post macro a, d
+	push dx
+	push ax
+	mov dx, a
+	mov al, d
+	out dx, al
+	pop ax
+	pop dx
+endm
+
+
+get macro address
+	push dx
+	mov dx, address
+	in al, dx
+	pop dx
 endm
